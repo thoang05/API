@@ -1,1 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Your TOP News</title>
+<meta charset="utf-8"/>
+<style>
 
+</style>
+
+<script>
+function getData() {
+  request = new XMLHttpRequest();
+
+  theWord = document.forms[0].word.value;
+  url = "https://api.edamam.com/api/food-database/parser?ingr=" + theWord + "&app_id=398a4f8e&app_key=c1d1e8076724f74e2a820e266971b1e7";
+  request.open("GET", url, true);
+
+  request.onreadystatechange = function() {
+    if (request.readyState == 4 && request.status == 200) {
+      theData = request.responseText;
+      // document.getElementById("cData").innerHTML += "<br>The response is: " + theData;
+  
+      m = JSON.parse(theData);
+      // document.getElementById("cData").innerHTML += "<br>" + " " + m["parsed"]["nutrients"]["ENERC_KCAL"] + " - " + m["parsed"]["nutrients"]["PROCNT"];
+      // document.getElementById("cData").innerHTML += "<br>" + " " + m["parsed"][0].food.nutrients.ENERC_KCAL;
+      // document.getElementById("cData").innerHTML += "<br>" + " " + m["parsed"][0].food.image;
+
+      var results = "<center>";
+          results += "<div class='line'><hr></div>";
+          results += "<h1>" + theWord + "</h1><br>";
+          results += "<img src='" + m["parsed"][0].food.image + "'><br><br>";
+          results += "Energy KCal: " + m["parsed"][0].food.nutrients.ENERC_KCAL + "<br><br>";
+          results += "Protein: " + m["parsed"][0].food.nutrients.PROCNT + "<br><br>";
+          results += "Fat: " + m["parsed"][0].food.nutrients.FAT + "<br><br>";
+          results += "Carbs: " + m["parsed"][0].food.nutrients.CHOCDF + "<br><br>";
+          results += "Fiber: " + m["parsed"][0].food.nutrients.FIBTG + "<br><br>";
+          results += "</center>"
+      document.getElementById("cData").innerHTML += results;
+    }
+    else if (request.readyState == 4 && request.status != 200) {
+      document.getElementById("cData").innerHTML += "<br>Request failed!";
+    }
+  }
+
+  request.send(); // end load data
+}
+</script>
+</head>
+
+<body>
+  <form>Pick a word: <input type = 'text' name = 'word'>
+		<br><input type = "button" value = "Get Response"
+			onclick="getData()">
+	</form>
+  <p id="cData"></p>
+
+</body>
+</html>
