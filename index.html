@@ -4,7 +4,12 @@
 <title>Your TOP News</title>
 <meta charset="utf-8"/>
 <style>
-
+  p {
+    font-size: 1.2em;
+  }
+  h1 {
+    font-size: 2em;
+  }
 </style>
 
 <script>
@@ -30,7 +35,8 @@ function getData() {
           results += "Carbs: " + m["parsed"][0].food.nutrients.CHOCDF + "g" + "<br><br>";
           results += "Fiber: " + m["parsed"][0].food.nutrients.FIBTG + "g" + "<br><br>";
           results += "</center>"
-      document.getElementById("cData").innerHTML += results;
+      
+      document.getElementById("display_data").innerHTML = results;
     }
     else if (request.readyState == 4 && request.status != 200) {
       alert("Something went wrong");
@@ -47,11 +53,22 @@ function getData() {
 </head>
 
 <body>
-  <form>Enter a food: <input type = 'text' name = 'food'>
-		<input type = "button" value = "Get Response"
+  <center>
+    <h1>How Good is Your Food?</h1>
+    <p>This API provides you with tools to find nutrition and diet data for generic foods, packaged foods and restaurant meals <br>
+    This is the site: <a href="https://developer.edamam.com/" target="_blank">https://developer.edamam.com/</a><br>
+    I made an API request based on the user input and display the information based on the first result.
+    </p>
+
+  <p>Enter a food/fruit and its nutrients will be listed!</p>
+  <span style="font-style: italic; font-size: 1em;">Please note that if you spell the item incorrectly, the API will not work<br>Some items may not have an image</span><br><br>
+  <form><input type = 'text' name = 'food'>
+		<input type = "button" value = "Get Nutrients"
 			onclick="getData()">
 	</form>
-  <p id="cData"></p>
+  <p id="display_data"></p>
+  </center>
+  
 
 </body>
 </html>
